@@ -1,0 +1,42 @@
+from flask import Flask, render_template_string, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    show_image = request.args.get('show_image', False)
+    html = '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Image Display</title>
+    </head>
+    <body>
+        <h1>Image Display</h1>
+
+        <label for="show-image">Show Image</label>
+        <input type="checkbox" id="show-image" name="show-image" onchange="showFrame()" {{ checked }}>
+
+        <div id="image-frame" style="display: {{ display }};">
+            <img src="path_to_your_image.jpg" alt="Image">
+        </div>
+
+        <script>
+            function showFrame() {
+                var checkBox = document.getElementById("show-image");
+                var imageFrame = document.getElementById("image-frame");
+
+                if (checkBox.checked) {
+                    imageFrame.style.display = "block";
+                } else {
+                    imageFrame.style.display = "none";
+                }
+            }
+        </script>
+    </body>
+    </html>
+    '''
+    return render_template_string(html, checked='checked' if show_image else '', display='block' if show_image else 'none')
+
+if __name__ == '__main__':
+    app.run()
