@@ -1,0 +1,30 @@
+from ultralytics import YOLO
+import numpy as np
+from PIL import Image
+import cv2
+import time
+
+#model = YOLO("best.pt") #using the model I trained in my colab.  This best.pt file has to be downloaded from colab and then put into the 'demo' folder for this project
+model = YOLO("yolov8s.pt") #using the standard model without training as it comes pretrained to detect things like people
+#image ='/Users/tobieabel/Desktop/video_frames/Youtube/100.jpeg'
+
+#video_path = '/Users/tobieabel/Desktop/video_frames/test 4.mp4' #for running this against a video
+
+cap = cv2.VideoCapture()
+#cap.open(video_path)
+cap.open("rtsp://admin:heather201@192.168.1.66:554/Streaming/Channels/2")
+while cap.isOpened():
+    ret, frame = cap.read()
+
+    res = model(frame)
+    res_plotted = res[0].plot()#this automatically plots the bounding boxes so you don't need to work them out
+    boxes = res[0].boxes
+    for box in boxes:
+        print (box.xyxy)#these are the x,y,x,y cordinates of the bounding boxes
+        print (box.xywh)
+        print(box.conf, box.cls)# class returns number: 3 = red queue, 5 = staff, 4 = spurs flag
+    cv2.imshow("result", res_plotted)
+    #time.sleep(5)
+    if cv2.waitKey(1) & 0xFF ==ord('q'):
+        break
+cv2.destroyAllWindows()
