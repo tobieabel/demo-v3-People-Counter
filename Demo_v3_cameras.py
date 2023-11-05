@@ -25,9 +25,9 @@ def Initialise_Video(): #Remember to remove credentials if sending this to githu
     global camera1
     global camera2
     camera1 = cv2.VideoCapture()
-    camera1.open("rtsp://admin:heather201@192.168.1.66:554/Streaming/Channels/2")#indoor camera
+    camera1.open("rtsp://admin:h*201@192.168.1.66:554/Streaming/Channels/2")#indoor camera
     camera2 = cv2.VideoCapture()
-    camera2.open("rtsp://admin:heather201@192.168.1.65:554/Streaming/Channels/2")#garden camera
+    camera2.open("rtsp://admin:h@201@192.168.1.65:554/Streaming/Channels/2")#garden camera
     time.sleep(1)
 
 
